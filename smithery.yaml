@@ -1,75 +1,39 @@
-# Smithery.ai configuration
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
 startCommand:
   type: stdio
   configSchema:
+    # JSON Schema defining the configuration options for the MCP.
     type: object
-    required: ["accessToken", "domain"]
+    required:
+      - accessToken
+      - domain
     properties:
-      accessToken:
-        type: string
-        description: "Shopify Admin API access token"
       domain:
         type: string
-        description: "Your Shopify store domain (e.g., your-store.myshopify.com)"
+        description: Your Shopify store domain (e.g., your-store.myshopify.com)
       logLevel:
         type: string
-        enum: ["debug", "info", "warn", "error"]
-        default: "info"
-        description: "Log level for the MCP server"
-      apiVersion:
+        default: info
+        description: Log level for the MCP server
+      accessToken:
         type: string
-        default: "2023-07"
-        description: "Shopify API version to use (format: YYYY-MM)"
-      timeout:
-        type: integer
-        default: 30000
-        description: "Request timeout in milliseconds"
-      maxRetries:
-        type: integer
-        default: 3
-        description: "Maximum number of retries for failed requests"
-      enableMetrics:
-        type: boolean
-        default: false
-        description: "Enable collection of performance metrics"
-      debugMode:
-        type: boolean
-        default: false
-        description: "Enable additional debug information"
-  build:
-    dockerfile: "./Dockerfile"
-    dockerBuildPath: "."
-  commandFunction: |
-    (config) => {
-      // Validate required configuration
-      if (!config.accessToken) {
-        throw new Error("Shopify access token is required");
-      }
-      if (!config.domain) {
-        throw new Error("Shopify domain is required");
-      }
-      
-      // Validate domain format
-      if (!config.domain.includes('.myshopify.com') && !config.domain.match(/^[a-zA-Z0-9][a-zA-Z0-9-]*\.myshopify\.com$/)) {
-        console.warn("Warning: Domain may not be in the correct format. Expected format: your-store.myshopify.com");
-      }
-      
-      // Set up environment variables
-      const env = {
+        description: Shopify Admin API access token
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |
+    (config) => ({
+      "command": "node",
+      "args": [
+        "dist/index.js",
+        "--accessToken",
+        config.accessToken,
+        "--domain",
+        config.domain
+      ],
+      "env": {
         "SHOPIFY_ACCESS_TOKEN": config.accessToken,
         "MYSHOPIFY_DOMAIN": config.domain,
-        "LOG_LEVEL": config.logLevel || "info",
-        "API_VERSION": config.apiVersion || "2023-07",
-        "REQUEST_TIMEOUT": config.timeout ? config.timeout.toString() : "30000",
-        "MAX_RETRIES": config.maxRetries ? config.maxRetries.toString() : "3",
-        "ENABLE_METRICS": config.enableMetrics ? "true" : "false",
-        "DEBUG_MODE": config.debugMode ? "true" : "false",
-        "NODE_ENV": "production"
-      };
-      
-      return {
-        "command": "node",
-        "args": ["dist/index.js"],
-        "env": env
-      };
-    }
+        "LOG_LEVEL": config.logLevel || "info"
+      }
+    })
