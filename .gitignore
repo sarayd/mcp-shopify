@@ -21,3 +21,5 @@ build/
 # OS Files
 .DS_Store
 Thumbs.db 
+dist/
+shopify-api-docs/

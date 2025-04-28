@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import dotenv from "dotenv";
@@ -16,6 +14,7 @@ import { createFulfillment } from "./tools/createFulfillment.js";
 import { createMetafield } from "./tools/createMetafield.js";
 import { createOrder } from "./tools/createOrder.js";
 import { createProduct } from "./tools/createProduct.js";
+import { deleteProductMedia } from "./tools/deleteProductMedia.js";
 import { disconnectInventoryFromLocation } from "./tools/disconnectInventoryFromLocation.js";
 import { getCustomerOrders } from "./tools/getCustomerOrders.js";
 import { getCustomers } from "./tools/getCustomers.js";
@@ -26,9 +25,15 @@ import { getOrderById } from "./tools/getOrderById.js";
 import { getOrders } from "./tools/getOrders.js";
 import { getProductById } from "./tools/getProductById.js";
 import { getProducts } from "./tools/getProducts.js";
+import { productCreateMedia } from "./tools/productCreateMedia.js";
+import { productReorderMedia } from "./tools/productReorderMedia.js";
+import { productUpdateMedia } from "./tools/productUpdateMedia.js";
 import { setInventoryTracking } from "./tools/setInventoryTracking.js";
 import { updateCustomer } from "./tools/updateCustomer.js";
 import { updateOrder } from "./tools/updateOrder.js";
+import { orderCancel } from "./tools/orderCancel.js";
+import { orderCapture } from "./tools/orderCapture.js";
+import { orderClose } from "./tools/orderClose.js";
 
 // Parse command line arguments
 const argv = minimist(process.argv.slice(2));
@@ -62,7 +67,7 @@ if (!MYSHOPIFY_DOMAIN) {
 
 // Create Shopify GraphQL client
 const shopifyClient = new GraphQLClient(
-  `https://${MYSHOPIFY_DOMAIN}/admin/api/2023-07/graphql.json`,
+  `https://${MYSHOPIFY_DOMAIN}/admin/api/2025-04/graphql.json`,
   {
     headers: {
       "X-Shopify-Access-Token": SHOPIFY_ACCESS_TOKEN,
@@ -86,6 +91,10 @@ createFulfillment.initialize(shopifyClient);
 createProduct.initialize(shopifyClient);
 createCollection.initialize(shopifyClient);
 createMetafield.initialize(shopifyClient);
+deleteProductMedia.initialize(shopifyClient);
+productCreateMedia.initialize(shopifyClient);
+productReorderMedia.initialize(shopifyClient);
+productUpdateMedia.initialize(shopifyClient);
 // Initialize inventory tools
 getInventoryLevels.initialize(shopifyClient);
 getInventoryItems.initialize(shopifyClient);
@@ -94,6 +103,9 @@ adjustInventory.initialize(shopifyClient);
 setInventoryTracking.initialize(shopifyClient);
 connectInventoryToLocation.initialize(shopifyClient);
 disconnectInventoryFromLocation.initialize(shopifyClient);
+orderCancel.initialize(shopifyClient);
+orderCapture.initialize(shopifyClient);
+orderClose.initialize(shopifyClient);
 
 // Set up MCP server
 const server = new McpServer({
@@ -104,6 +116,7 @@ const server = new McpServer({
 });
 
 // Add tools individually, using their schemas directly
+console.error("Registered get-products");
 server.tool(
   "get-products",
   {
@@ -118,6 +131,7 @@ server.tool(
   }
 );
 
+console.error("Registered get-product-by-id");
 server.tool(
   "get-product-by-id",
   {
@@ -131,6 +145,7 @@ server.tool(
   }
 );
 
+console.error("Registered get-customers");
 server.tool(
   "get-customers",
   {
@@ -690,6 +705,64 @@ server.tool(
   }
 );
 
+// Add the deleteProductMedia tool
+server.tool(
+  "delete-product-media",
+  {
+    mediaIds: z.array(z.string()).nonempty("At least one media ID is required"),
+    productId: z.string().min(1, "Product ID is required")
+  },
+  async (args) => {
+    const result = await deleteProductMedia.execute(args);
+    return {
+      content: [{ type: "text", text: JSON.stringify(result) }]
+    };
+  }
+);
+
+// Add the productCreateMedia tool
+server.tool(
+  "product-create-media",
+  {
+    media: z.array(z.object({
+      alt: z.string().optional(),
+      mediaContentType: z.string(),
+      originalSource: z.string()
+    })).nonempty("At least one media object is required"),
+    productId: z.string().min(1, "Product ID is required")
+  },
+  async (args) => {
+    const result = await productCreateMedia.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+// Add the productReorderMedia tool
+server.tool(
+  "reorder-product-media",
+  {
+    id: z.string().min(1, "Product ID is required"),
+    moves: z.array(z.object({ id: z.string(), newPosition: z.number().int().nonnegative() })).nonempty("At least one move is required")
+  },
+  async (args) => {
+    const result = await productReorderMedia.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+// Add the productUpdateMedia tool
+server.tool(
+  "update-product-media",
+  {
+    media: z.array(z.object({ id: z.string(), alt: z.string().optional() })).nonempty("At least one media update is required"),
+    productId: z.string().min(1, "Product ID is required")
+  },
+  async (args) => {
+    const result = await productUpdateMedia.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
 // Add inventory-related tools
 
 // Add the getInventoryLevels tool
@@ -804,11 +877,59 @@ server.tool(
   }
 );
 
+// Add the cancel-order tool
+server.tool(
+  "cancel-order",
+  {
+    orderId: z.string().min(1),
+    reason: z.enum(["CUSTOMER", "DECLINED", "FRAUD", "INVENTORY", "OTHER", "STAFF"]),
+    refund: z.boolean(),
+    restock: z.boolean(),
+    notifyCustomer: z.boolean(),
+    staffNote: z.string().optional()
+  },
+  async (args) => {
+    const result = await orderCancel.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+// Add the capture-order tool
+server.tool(
+  "capture-order",
+  {
+    id: z.string().min(1),
+    parentTransactionId: z.string().min(1),
+    amount: z.string().min(1),
+    currency: z.string().optional(),
+    finalCapture: z.boolean().optional()
+  },
+  async (args) => {
+    const result = await orderCapture.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+// Add the close-order tool
+server.tool(
+  "close-order",
+  {
+    id: z.string().min(1)
+  },
+  async (args) => {
+    const result = await orderClose.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
 // Start the server
 const transport = new StdioServerTransport();
+console.error("Initializing Shopify MCP server...");
 server
   .connect(transport)
-  .then(() => {})
+  .then(() => {
+    console.error("Shopify MCP server connected successfully");
+  })
   .catch((error: unknown) => {
     console.error("Failed to start Shopify MCP Server:", error);
   });
