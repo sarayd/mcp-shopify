@@ -5,7 +5,7 @@ import { GraphQLClient } from "graphql-request";
 import minimist from "minimist";
 import { z } from "zod";
 
-// Import tools
+// Import existing tools
 import { adjustInventory } from "./tools/adjustInventory.js";
 import { connectInventoryToLocation } from "./tools/connectInventoryToLocation.js";
 import { createCollection } from "./tools/createCollection.js";
@@ -34,6 +34,30 @@ import { updateOrder } from "./tools/updateOrder.js";
 import { orderCancel } from "./tools/orderCancel.js";
 import { orderCapture } from "./tools/orderCapture.js";
 import { orderClose } from "./tools/orderClose.js";
+
+// Import new tools
+import { productVariantDetachMedia } from "./tools/productVariantDetachMedia.js";
+import { subscriptionBillingCycleBulkSearch } from "./tools/subscriptionBillingCycleBulkSearch.js";
+import { pubSubServerPixelUpdate } from "./tools/pubSubServerPixelUpdate.js";
+import { customerAddressDelete } from "./tools/customerAddressDelete.js";
+import { productUpdate } from "./tools/productUpdate.js";
+import { pageDelete } from "./tools/pageDelete.js";
+import { discountCodeFreeShippingUpdate } from "./tools/discountCodeFreeShippingUpdate.js";
+import { articleCreate } from "./tools/articleCreate.js";
+import { metafieldDefinitionUnpin } from "./tools/metafieldDefinitionUnpin.js";
+import { publishableUnpublishToCurrentChannel } from "./tools/publishableUnpublishToCurrentChannel.js";
+import { validationUpdate } from "./tools/validationUpdate.js";
+import { companyAssignCustomerAsContact } from "./tools/companyAssignCustomerAsContact.js";
+import { customerPaymentMethodCreditCardCreate } from "./tools/customerPaymentMethodCreditCardCreate.js";
+import { combinedListingUpdate } from "./tools/combinedListingUpdate.js";
+import { deliveryProfileRemove } from "./tools/deliveryProfileRemove.js";
+import { transactionVoid } from "./tools/transactionVoid.js";
+import { paymentCustomizationUpdate } from "./tools/paymentCustomizationUpdate.js";
+import { urlRedirectBulkDeleteByIds } from "./tools/urlRedirectBulkDeleteByIds.js";
+import { companyLocationTaxSettingsUpdate } from "./tools/companyLocationTaxSettingsUpdate.js";
+import { priceListCreate } from "./tools/priceListCreate.js";
+import { subscriptionBillingCycleEditsDelete } from "./tools/subscriptionBillingCycleEditsDelete.js";
+import { companyContactRevokeRole } from "./tools/companyContactRevokeRole.js";
 
 // Parse command line arguments
 const argv = minimist(process.argv.slice(2));
@@ -76,7 +100,7 @@ const shopifyClient = new GraphQLClient(
   }
 );
 
-// Initialize tools with shopifyClient
+// Initialize existing tools with shopifyClient
 getProducts.initialize(shopifyClient);
 getProductById.initialize(shopifyClient);
 getCustomers.initialize(shopifyClient);
@@ -95,7 +119,6 @@ deleteProductMedia.initialize(shopifyClient);
 productCreateMedia.initialize(shopifyClient);
 productReorderMedia.initialize(shopifyClient);
 productUpdateMedia.initialize(shopifyClient);
-// Initialize inventory tools
 getInventoryLevels.initialize(shopifyClient);
 getInventoryItems.initialize(shopifyClient);
 getLocations.initialize(shopifyClient);
@@ -107,6 +130,30 @@ orderCancel.initialize(shopifyClient);
 orderCapture.initialize(shopifyClient);
 orderClose.initialize(shopifyClient);
 
+// Initialize new tools with shopifyClient
+productVariantDetachMedia.initialize(shopifyClient);
+subscriptionBillingCycleBulkSearch.initialize(shopifyClient);
+pubSubServerPixelUpdate.initialize(shopifyClient);
+customerAddressDelete.initialize(shopifyClient);
+productUpdate.initialize(shopifyClient);
+pageDelete.initialize(shopifyClient);
+discountCodeFreeShippingUpdate.initialize(shopifyClient);
+articleCreate.initialize(shopifyClient);
+metafieldDefinitionUnpin.initialize(shopifyClient);
+publishableUnpublishToCurrentChannel.initialize(shopifyClient);
+validationUpdate.initialize(shopifyClient);
+companyAssignCustomerAsContact.initialize(shopifyClient);
+customerPaymentMethodCreditCardCreate.initialize(shopifyClient);
+combinedListingUpdate.initialize(shopifyClient);
+deliveryProfileRemove.initialize(shopifyClient);
+transactionVoid.initialize(shopifyClient);
+paymentCustomizationUpdate.initialize(shopifyClient);
+urlRedirectBulkDeleteByIds.initialize(shopifyClient);
+companyLocationTaxSettingsUpdate.initialize(shopifyClient);
+priceListCreate.initialize(shopifyClient);
+subscriptionBillingCycleEditsDelete.initialize(shopifyClient);
+companyContactRevokeRole.initialize(shopifyClient);
+
 // Set up MCP server
 const server = new McpServer({
   name: "shopify",
@@ -115,7 +162,7 @@ const server = new McpServer({
     "MCP Server for Shopify API, enabling interaction with store data through GraphQL API"
 });
 
-// Add tools individually, using their schemas directly
+// Register existing tools
 console.error("Registered get-products");
 server.tool(
   "get-products",
@@ -174,7 +221,6 @@ server.tool(
   }
 );
 
-// Add the getOrderById tool
 server.tool(
   "get-order-by-id",
   {
@@ -188,7 +234,6 @@ server.tool(
   }
 );
 
-// Add the updateOrder tool
 server.tool(
   "update-order",
   {
@@ -238,7 +283,6 @@ server.tool(
   }
 );
 
-// Add the getCustomerOrders tool
 server.tool(
   "get-customer-orders",
   {
@@ -256,7 +300,6 @@ server.tool(
   }
 );
 
-// Add the updateCustomer tool
 server.tool(
   "update-customer",
   {
@@ -291,7 +334,6 @@ server.tool(
   }
 );
 
-// Add the createCustomer tool
 server.tool(
   "create-customer",
   {
@@ -315,7 +357,6 @@ server.tool(
   }
 );
 
-// Add the createOrder tool with fixed lineItems validation
 server.tool(
   "create-order",
   {
@@ -397,15 +438,10 @@ server.tool(
   },
   async (args) => {
     try {
-      // Pre-process lineItems to ensure it's an array
       let processedArgs = { ...args };
-      
-      // Handle case where lineItems might be a string (JSON)
-      if (typeof processedArgs.lineItems === 'string') {
+      if (typeof processedArgs.lineItems === "string") {
         try {
           processedArgs.lineItems = JSON.parse(processedArgs.lineItems);
-          
-          // Ensure it's an array after parsing
           if (!Array.isArray(processedArgs.lineItems)) {
             processedArgs.lineItems = [processedArgs.lineItems];
           }
@@ -413,22 +449,17 @@ server.tool(
           throw new Error("Invalid lineItems format. Expected a valid JSON array.");
         }
       }
-      
-      // Ensure lineItems is an array
       if (!Array.isArray(processedArgs.lineItems)) {
         throw new Error("lineItems must be an array of product variants with quantities");
       }
-      
-      // Validate each line item
       processedArgs.lineItems.forEach((item, index) => {
         if (!item.variantId) {
           throw new Error(`Line item at index ${index} is missing variantId`);
         }
-        if (!item.quantity || typeof item.quantity !== 'number' || item.quantity <= 0) {
+        if (!item.quantity || typeof item.quantity !== "number" || item.quantity <= 0) {
           throw new Error(`Line item at index ${index} has invalid quantity. Must be a positive number.`);
         }
       });
-      
       const result = await createOrder.execute(processedArgs);
       return {
         content: [{ type: "text", text: JSON.stringify(result) }]
@@ -439,7 +470,6 @@ server.tool(
   }
 );
 
-// Add the createFulfillment tool
 server.tool(
   "create-fulfillment",
   {
@@ -475,7 +505,6 @@ server.tool(
   }
 );
 
-// Add the createProduct tool
 server.tool(
   "create-product",
   {
@@ -546,7 +575,6 @@ server.tool(
   }
 );
 
-// Add the createCollection tool
 server.tool(
   "create-collection",
   {
@@ -673,7 +701,6 @@ server.tool(
   }
 );
 
-// Add the createMetafield tool
 server.tool(
   "create-metafield",
   {
@@ -705,7 +732,6 @@ server.tool(
   }
 );
 
-// Add the deleteProductMedia tool
 server.tool(
   "delete-product-media",
   {
@@ -720,15 +746,18 @@ server.tool(
   }
 );
 
-// Add the productCreateMedia tool
 server.tool(
   "product-create-media",
   {
-    media: z.array(z.object({
-      alt: z.string().optional(),
-      mediaContentType: z.string(),
-      originalSource: z.string()
-    })).nonempty("At least one media object is required"),
+    media: z
+      .array(
+        z.object({
+          alt: z.string().optional(),
+          mediaContentType: z.string(),
+          originalSource: z.string()
+        })
+      )
+      .nonempty("At least one media object is required"),
     productId: z.string().min(1, "Product ID is required")
   },
   async (args) => {
@@ -737,12 +766,18 @@ server.tool(
   }
 );
 
-// Add the productReorderMedia tool
 server.tool(
   "reorder-product-media",
   {
     id: z.string().min(1, "Product ID is required"),
-    moves: z.array(z.object({ id: z.string(), newPosition: z.number().int().nonnegative() })).nonempty("At least one move is required")
+    moves: z
+      .array(
+        z.object({
+          id: z.string(),
+          newPosition: z.number().int().nonnegative()
+        })
+      )
+      .nonempty("At least one move is required")
   },
   async (args) => {
     const result = await productReorderMedia.execute(args);
@@ -750,11 +785,17 @@ server.tool(
   }
 );
 
-// Add the productUpdateMedia tool
 server.tool(
   "update-product-media",
   {
-    media: z.array(z.object({ id: z.string(), alt: z.string().optional() })).nonempty("At least one media update is required"),
+    media: z
+      .array(
+        z.object({
+          id: z.string(),
+          alt: z.string().optional()
+        })
+      )
+      .nonempty("At least one media update is required"),
     productId: z.string().min(1, "Product ID is required")
   },
   async (args) => {
@@ -763,9 +804,6 @@ server.tool(
   }
 );
 
-// Add inventory-related tools
-
-// Add the getInventoryLevels tool
 server.tool(
   "get-inventory-levels",
   {
@@ -780,7 +818,6 @@ server.tool(
   }
 );
 
-// Add the getInventoryItems tool
 server.tool(
   "get-inventory-items",
   {
@@ -797,7 +834,6 @@ server.tool(
   }
 );
 
-// Add the getLocations tool
 server.tool(
   "get-locations",
   {
@@ -812,7 +848,6 @@ server.tool(
   }
 );
 
-// Add the adjustInventory tool
 server.tool(
   "adjust-inventory",
   {
@@ -829,7 +864,6 @@ server.tool(
   }
 );
 
-// Add the setInventoryTracking tool
 server.tool(
   "set-inventory-tracking",
   {
@@ -844,7 +878,6 @@ server.tool(
   }
 );
 
-// Add the connectInventoryToLocation tool
 server.tool(
   "connect-inventory-to-location",
   {
@@ -861,7 +894,6 @@ server.tool(
   }
 );
 
-// Add the disconnectInventoryFromLocation tool
 server.tool(
   "disconnect-inventory-from-location",
   {
@@ -877,7 +909,6 @@ server.tool(
   }
 );
 
-// Add the cancel-order tool
 server.tool(
   "cancel-order",
   {
@@ -894,7 +925,6 @@ server.tool(
   }
 );
 
-// Add the capture-order tool
 server.tool(
   "capture-order",
   {
@@ -910,7 +940,6 @@ server.tool(
   }
 );
 
-// Add the close-order tool
 server.tool(
   "close-order",
   {
@@ -918,6 +947,362 @@ server.tool(
   },
   async (args) => {
     const result = await orderClose.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+// Register new tools
+console.error("Registered product-variant-detach-media");
+server.tool(
+  "product-variant-detach-media",
+  {
+    productId: z.string().min(1, "Product ID is required"),
+    variantId: z.string().min(1, "Variant ID is required"),
+    mediaIds: z.array(z.string()).nonempty("At least one media ID is required")
+  },
+  async (args) => {
+    const result = await productVariantDetachMedia.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered subscription-billing-cycle-bulk-search");
+server.tool(
+  "subscription-billing-cycle-bulk-search",
+  {
+    subscriptionContractIds: z
+      .array(z.string())
+      .nonempty("At least one subscription contract ID is required"),
+    searchCriteria: z.string().optional()
+  },
+  async (args) => {
+    const result = await subscriptionBillingCycleBulkSearch.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered pub-sub-server-pixel-update");
+server.tool(
+  "pub-sub-server-pixel-update",
+  {
+    pixelId: z.string().min(1, "Pixel ID is required"),
+    settings: z
+      .object({
+        accountId: z.string().optional(),
+        enabled: z.boolean().optional()
+      })
+      .optional()
+  },
+  async (args) => {
+    const result = await pubSubServerPixelUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-address-delete");
+server.tool(
+  "customer-address-delete",
+  {
+    customerId: z.string().min(1, "Customer ID is required"),
+    addressId: z.string().min(1, "Address ID is required")
+  },
+  async (args) => {
+    const result = await customerAddressDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered product-update");
+server.tool(
+  "product-update",
+  {
+    id: z.string().min(1, "Product ID is required"),
+    title: z.string().optional(),
+    descriptionHtml: z.string().optional(),
+    variants: z
+      .array(
+        z.object({
+          id: z.string().min(1, "Variant ID is required"),
+          price: z.string().optional(),
+          sku: z.string().optional()
+        })
+      )
+      .optional(),
+    metafields: z
+      .array(
+        z.object({
+          namespace: z.string().min(1, "Metafield namespace is required"),
+          key: z.string().min(1, "Metafield key is required"),
+          value: z.string().min(1, "Metafield value is required"),
+          type: z.string().min(1, "Metafield type is required")
+        })
+      )
+      .optional()
+  },
+  async (args) => {
+    const result = await productUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered page-delete");
+server.tool(
+  "page-delete",
+  {
+    id: z.string().min(1, "Page ID is required")
+  },
+  async (args) => {
+    const result = await pageDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-code-free-shipping-update");
+server.tool(
+  "discount-code-free-shipping-update",
+  {
+    id: z.string().min(1, "Discount code ID is required"),
+    title: z.string().optional(),
+    code: z.string().optional(),
+    minimumRequirement: z
+      .object({
+        amount: z.string().optional(),
+        currencyCode: z.string().optional()
+      })
+      .optional()
+  },
+  async (args) => {
+    const result = await discountCodeFreeShippingUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered article-create");
+server.tool(
+  "article-create",
+  {
+    blogId: z.string().min(1, "Blog ID is required"),
+    title: z.string().min(1, "Title is required"),
+    content: z.string().optional(),
+    author: z.string().optional(),
+    published: z.boolean().optional()
+  },
+  async (args) => {
+    const result = await articleCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered metafield-definition-unpin");
+server.tool(
+  "metafield-definition-unpin",
+  {
+    id: z.string().min(1, "Metafield definition ID is required")
+  },
+  async (args) => {
+    const result = await metafieldDefinitionUnpin.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered publishable-unpublish-to-current-channel");
+server.tool(
+  "publishable-unpublish-to-current-channel",
+  {
+    id: z.string().min(1, "Resource ID is required")
+  },
+  async (args) => {
+    const result = await publishableUnpublishToCurrentChannel.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered validation-update");
+server.tool(
+  "validation-update",
+  {
+    id: z.string().min(1, "Validation ID is required"),
+    rules: z
+      .object({
+        ruleType: z.string().optional(),
+        value: z.string().optional()
+      })
+      .optional()
+  },
+  async (args) => {
+    const result = await validationUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-assign-customer-as-contact");
+server.tool(
+  "company-assign-customer-as-contact",
+  {
+    companyId: z.string().min(1, "Company ID is required"),
+    customerId: z.string().min(1, "Customer ID is required")
+  },
+  async (args) => {
+    const result = await companyAssignCustomerAsContact.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-payment-method-credit-card-create");
+server.tool(
+  "customer-payment-method-credit-card-create",
+  {
+    customerId: z.string().min(1, "Customer ID is required"),
+    vaultId: z.string().min(1, "Vault ID is required"),
+    billingAddress: z
+      .object({
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+        address1: z.string().optional(),
+        city: z.string().optional(),
+        province: z.string().optional(),
+        country: z.string().optional(),
+        zip: z.string().optional()
+      })
+      .optional()
+  },
+  async (args) => {
+    const result = await customerPaymentMethodCreditCardCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered combined-listing-update");
+server.tool(
+  "combined-listing-update",
+  {
+    listingId: z.string().min(1, "Listing ID is required"),
+    updates: z
+      .object({
+        title: z.string().optional(),
+        price: z.string().optional()
+      })
+      .optional()
+  },
+  async (args) => {
+    const result = await combinedListingUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered delivery-profile-remove");
+server.tool(
+  "delivery-profile-remove",
+  {
+    id: z.string().min(1, "Delivery profile ID is required")
+  },
+  async (args) => {
+    const result = await deliveryProfileRemove.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered transaction-void");
+server.tool(
+  "transaction-void",
+  {
+    transactionId: z.string().min(1, "Transaction ID is required")
+  },
+  async (args) => {
+    const result = await transactionVoid.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered payment-customization-update");
+server.tool(
+  "payment-customization-update",
+  {
+    id: z.string().min(1, "Customization ID is required"),
+    rules: z
+      .object({
+        paymentMethodId: z.string().optional(),
+        enabled: z.boolean().optional()
+      })
+      .optional()
+  },
+  async (args) => {
+    const result = await paymentCustomizationUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered url-redirect-bulk-delete-by-ids");
+server.tool(
+  "url-redirect-bulk-delete-by-ids",
+  {
+    ids: z.array(z.string()).nonempty("At least one redirect ID is required")
+  },
+  async (args) => {
+    const result = await urlRedirectBulkDeleteByIds.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-location-tax-settings-update");
+server.tool(
+  "company-location-tax-settings-update",
+  {
+    companyLocationId: z.string().min(1, "Company location ID is required"),
+    taxSettings: z
+      .object({
+        taxExempt: z.boolean().optional()
+      })
+      .optional()
+  },
+  async (args) => {
+    const result = await companyLocationTaxSettingsUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered price-list-create");
+server.tool(
+  "price-list-create",
+  {
+    name: z.string().min(1, "Price list name is required"),
+    currency: z.string().min(1, "Currency is required"),
+    prices: z
+      .array(
+        z.object({
+          variantId: z.string().min(1, "Variant ID is required"),
+          price: z.string().min(1, "Price is required")
+        })
+      )
+      .optional()
+  },
+  async (args) => {
+    const result = await priceListCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered subscription-billing-cycle-edits-delete");
+server.tool(
+  "subscription-billing-cycle-edits-delete",
+  {
+    editIds: z.array(z.string()).nonempty("At least one edit ID is required")
+  },
+  async (args) => {
+    const result = await subscriptionBillingCycleEditsDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-contact-revoke-role");
+server.tool(
+  "company-contact-revoke-role",
+  {
+    companyContactId: z.string().min(1, "Company contact ID is required"),
+    role: z.string().min(1, "Role is required")
+  },
+  async (args) => {
+    const result = await companyContactRevokeRole.execute(args);
     return { content: [{ type: "text", text: JSON.stringify(result) }] };
   }
 );
