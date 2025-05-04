@@ -1,26 +1,26 @@
 import { gql, GraphQLClient } from "graphql-request";
 import { z } from "zod";
 
-const OrderCloseInputSchema = z.object({
+const OrderOpenInputSchema = z.object({
   id: z.string().min(1, "Order ID is required")
 });
-type OrderCloseInput = z.infer<typeof OrderCloseInputSchema>;
+type OrderOpenInput = z.infer<typeof OrderOpenInputSchema>;
 
 let shopifyClient: GraphQLClient;
 
-const orderClose = {
-  name: "order-close",
-  description: "Close an order in Shopify",
-  schema: OrderCloseInputSchema,
+const orderOpen = {
+  name: "order-open",
+  description: "Open a closed order",
+  schema: OrderOpenInputSchema,
 
   initialize(client: GraphQLClient) {
     shopifyClient = client;
   },
 
-  execute: async (input: OrderCloseInput) => {
+  execute: async (input: OrderOpenInput) => {
     const query = gql`
-      mutation orderClose($input: OrderCloseInput!) {
-        orderClose(input: $input) {
+      mutation orderOpen($id: ID!) {
+        orderOpen(input: { id: $id }) {
           order {
             id
             closed
@@ -33,19 +33,15 @@ const orderClose = {
         }
       }
     `;
-    const variables = {
-      input: {
-        id: input.id
-      }
-    };
+    const variables = { id: input.id };
     try {
       const response: any = await shopifyClient.request(query, variables);
-      return response.orderClose;
+      return response.orderOpen;
     } catch (error) {
-      console.error("Error closing order:", error);
+      console.error("Error opening order:", error);
       throw new Error(error instanceof Error ? error.message : String(error));
     }
   }
 };
 
-export { orderClose };
+export { orderOpen };

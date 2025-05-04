@@ -1,22 +1,19 @@
 import { gql, GraphQLClient } from "graphql-request";
 import { z } from "zod";
 
-// Input schema for CreateMediaInput
 const CreateMediaInputSchema = z.object({
   alt: z.string().optional(),
-  mediaContentType: z.string(),
-  originalSource: z.string()
+  mediaContentType: z.enum(['VIDEO', 'EXTERNAL_VIDEO', 'MODEL_3D', 'IMAGE']),
+  originalSource: z.string().min(1, "Original source is required")
 });
 type CreateMediaInput = z.infer<typeof CreateMediaInputSchema>;
 
-// Tool input schema
 const ProductCreateMediaInputSchema = z.object({
   media: z.array(CreateMediaInputSchema).nonempty("At least one media object is required"),
   productId: z.string().min(1, "Product ID is required")
 });
 type ProductCreateMediaInput = z.infer<typeof ProductCreateMediaInputSchema>;
 
-// Will be initialized in index.ts
 let shopifyClient: GraphQLClient;
 
 const productCreateMedia = {
@@ -36,6 +33,11 @@ const productCreateMedia = {
             alt
             mediaContentType
             status
+            ... on MediaImage {
+              image {
+                url
+              }
+            }
           }
           mediaUserErrors {
             field
