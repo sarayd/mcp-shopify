@@ -58,6 +58,22 @@ import { companyLocationTaxSettingsUpdate } from "./tools/companyLocationTaxSett
 import { priceListCreate } from "./tools/priceListCreate.js";
 import { subscriptionBillingCycleEditsDelete } from "./tools/subscriptionBillingCycleEditsDelete.js";
 import { companyContactRevokeRole } from "./tools/companyContactRevokeRole.js";
+// Import new tools (first batch, 15 provided)
+import { abandonmentEmailStateUpdate } from "./tools/abandonmentEmailStateUpdate.js";
+import { abandonmentUpdateActivitiesDeliveryStatuses } from "./tools/abandonmentUpdateActivitiesDeliveryStatuses.js";
+import { appSubscriptionCancel } from "./tools/appSubscriptionCancel.js";
+import { appSubscriptionCreate } from "./tools/appSubscriptionCreate.js";
+import { articleUpdate } from "./tools/articleUpdate.js";
+import { blogDelete } from "./tools/blogDelete.js";
+import { bulkOperationCancel } from "./tools/bulkOperationCancel.js";
+import { bulkOperationRunQuery } from "./tools/bulkOperationRunQuery.js";
+import { carrierServiceDelete } from "./tools/carrierServiceDelete.js";
+import { cartTransformCreate } from "./tools/cartTransformCreate.js";
+import { catalogContextUpdate } from "./tools/catalogContextUpdate.js";
+import { catalogDelete } from "./tools/catalogDelete.js";
+import { checkoutBrandingUpsert } from "./tools/checkoutBrandingUpsert.js";
+import { collectionAddProducts } from "./tools/collectionAddProducts.js";
+import { collectionPublish } from "./tools/collectionPublish.js";
 
 // Parse command line arguments
 const argv = minimist(process.argv.slice(2));
@@ -1330,6 +1346,387 @@ server.tool(
   },
   async (args) => {
     const result = await companyContactRevokeRole.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+// Register new tools (first batch, 15 provided)
+console.error("Registered abandonment-email-state-update");
+server.tool(
+  "abandonment-email-state-update",
+  {
+    id: z.string().min(1, "ID is required"),
+    emailState: z.enum(['SENT', 'SCHEDULED', 'UNSUBSCRIBED']),
+    emailType: z.enum(['ABANDONED_CHECKOUT', 'ABANDONED_CART'])
+  },
+  async (args) => {
+    const result = await abandonmentEmailStateUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered abandonment-update-activities-delivery-statuses");
+server.tool(
+  "abandonment-update-activities-delivery-statuses",
+  {
+    id: z.string().min(1, "Abandonment ID is required"),
+    activities: z.array(
+      z.object({
+        activityId: z.string().min(1, "Activity ID is required"),
+        deliveryStatus: z.enum(["SENT", "FAILED", "PENDING"])
+      })
+    ).nonempty("At least one activity is required")
+  },
+  async (args) => {
+    const result = await abandonmentUpdateActivitiesDeliveryStatuses.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered app-subscription-cancel");
+server.tool(
+  "app-subscription-cancel",
+  {
+    id: z.string().min(1, "Subscription ID is required"),
+    prorate: z.boolean().optional()
+  },
+  async (args) => {
+    const result = await appSubscriptionCancel.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered app-subscription-create");
+server.tool(
+  "app-subscription-create",
+  {
+    name: z.string().min(1, "Name is required"),
+    lineItems: z.array(
+      z.object({
+        plan: z.object({
+          appRecurringPricingDetails: z.object({
+            price: z.object({
+              amount: z.number(),
+              currencyCode: z.string()
+            }),
+            interval: z.enum(['ANNUAL', 'EVERY_30_DAYS'])
+          })
+        })
+      })
+    ).nonempty("At least one line item is required"),
+    test: z.boolean().optional(),
+    trialDays: z.number().int().nonnegative().optional(),
+    returnUrl: z.string().min(1, "Return URL is required")
+  },
+  async (args) => {
+    const result = await appSubscriptionCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered article-update");
+server.tool(
+  "article-update",
+  {
+    id: z.string().min(1, "Article ID is required"),
+    input: z.object({
+      author: z.object({
+        email: z.string().optional(),
+        firstName: z.string().optional(),
+        lastName: z.string().optional()
+      }).optional(),
+      content: z.string().optional(),
+      contentHtml: z.string().optional(),
+      excerpt: z.string().optional(),
+      handle: z.string().optional(),
+      id: z.string(),
+      metafields: z.array(
+        z.object({
+          description: z.string().optional(),
+          id: z.string().optional(),
+          key: z.string(),
+          namespace: z.string(),
+          type: z.string(),
+          value: z.string()
+        })
+      ).optional(),
+      publishedAt: z.string().optional(),
+      seo: z.object({
+        description: z.string().optional(),
+        title: z.string().optional()
+      }).optional(),
+      tags: z.array(z.string()).optional(),
+      title: z.string().optional()
+    })
+  },
+  async (args) => {
+    const result = await articleUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered blog-delete");
+server.tool(
+  "blog-delete",
+  {
+    id: z.string().min(1, "Blog ID is required")
+  },
+  async (args) => {
+    const result = await blogDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered bulk-operation-cancel");
+server.tool(
+  "bulk-operation-cancel",
+  {
+    id: z.string().min(1, "Bulk operation ID is required").describe("The ID of the bulk operation to cancel")
+  },
+  async (args) => {
+    const result = await bulkOperationCancel.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered bulk-operation-run-query");
+server.tool(
+  "bulk-operation-run-query",
+  {
+    query: z.string().min(1, "Query is required")
+  },
+  async (args) => {
+    const result = await bulkOperationRunQuery.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered carrier-service-delete");
+server.tool(
+  "carrier-service-delete",
+  {
+    id: z.string().min(1, "Carrier service ID is required")
+  },
+  async (args) => {
+    const result = await carrierServiceDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered cart-transform-create");
+server.tool(
+  "cart-transform-create",
+  {
+    input: z.object({
+      cartTransform: z.object({
+        title: z.string(),
+        description: z.string().optional(),
+        enabled: z.boolean().optional(),
+        automaticApply: z.boolean().optional(),
+        orderSubtotalMinimum: z.object({
+          amount: z.number(),
+          currencyCode: z.string()
+        }).optional(),
+        orderSubtotalMaximum: z.object({
+          amount: z.number(),
+          currencyCode: z.string()
+        }).optional(),
+        targetItems: z.object({
+          includeAll: z.boolean().optional(),
+          productVariants: z.array(z.object({ id: z.string() })).optional(),
+          collections: z.array(z.object({ id: z.string() })).optional()
+        }).optional(),
+        transformItems: z.object({
+          add: z.array(
+            z.object({
+              merchandiseId: z.string(),
+              quantity: z.number(),
+              price: z.object({
+                fixedPrice: z.object({
+                  amount: z.number(),
+                  currencyCode: z.string()
+                }).optional(),
+                percentageDecrease: z.number().optional()
+              }).optional()
+            })
+          ).optional(),
+          remove: z.array(
+            z.object({
+              merchandiseId: z.string(),
+              quantity: z.number().optional()
+            })
+          ).optional()
+        }).optional()
+      })
+    })
+  },
+  async (args) => {
+    const result = await cartTransformCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered catalog-context-update");
+server.tool(
+  "catalog-context-update",
+  {
+    id: z.string().min(1, "ID is required"),
+    context: z.object({
+      country: z.string().optional(),
+      language: z.string().optional(),
+      preview: z.boolean().optional()
+    })
+  },
+  async (args) => {
+    const result = await catalogContextUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered catalog-delete");
+server.tool(
+  "catalog-delete",
+  {
+    id: z.string().min(1, "ID is required")
+  },
+  async (args) => {
+    const result = await catalogDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered checkout-branding-upsert");
+server.tool(
+  "checkout-branding-upsert",
+  {
+    input: z.object({
+      customizations: z.object({
+        checkbox: z.object({
+          cornerRadius: z.string().optional(),
+          background: z.string().optional()
+        }).optional(),
+        control: z.object({
+          border: z.string().optional(),
+          color: z.string().optional(),
+          cornerRadius: z.string().optional(),
+          labelPosition: z.enum(['INSIDE', 'OUTSIDE']).optional()
+        }).optional(),
+        select: z.object({
+          border: z.string().optional(),
+          background: z.string().optional(),
+          cornerRadius: z.string().optional()
+        }).optional(),
+        textField: z.object({
+          border: z.string().optional(),
+          background: z.string().optional(),
+          cornerRadius: z.string().optional()
+        }).optional(),
+        selectIcon: z.object({
+          foreground: z.string().optional()
+        }).optional(),
+        typography: z.object({
+          size: z.string().optional(),
+          primary: z.object({
+            name: z.string().optional(),
+            base64Data: z.string().optional(),
+            weight: z.string().optional()
+          }).optional(),
+          secondary: z.object({
+            name: z.string().optional(),
+            base64Data: z.string().optional(),
+            weight: z.string().optional()
+          }).optional()
+        }).optional(),
+        header: z.object({
+          alignment: z.enum(['LEFT', 'CENTER']).optional(),
+          position: z.enum(['START', 'END']).optional()
+        }).optional(),
+        headingLevel1: z.object({
+          typography: z.object({
+            size: z.string().optional(),
+            base64Data: z.string().optional(),
+            weight: z.string().optional()
+          }).optional()
+        }).optional(),
+        headingLevel2: z.object({
+          typography: z.object({
+            size: z.string().optional(),
+            base64Data: z.string().optional(),
+            weight: z.string().optional()
+          }).optional()
+        }).optional(),
+        headingLevel3: z.object({
+          typography: z.object({
+            size: z.string().optional(),
+            base64Data: z.string().optional(),
+            weight: z.string().optional()
+          }).optional()
+        }).optional(),
+        global: z.object({
+          cornerRadius: z.string().optional(),
+          typography: z.object({
+            letterCase: z.enum(['NONE', 'UPPER', 'LOWER', 'TITLE']).optional(),
+            kerning: z.string().optional(),
+            tracking: z.string().optional()
+          }).optional()
+        }).optional(),
+        primaryButton: z.object({
+          background: z.string().optional(),
+          border: z.string().optional(),
+          cornerRadius: z.string().optional(),
+          blockPadding: z.string().optional(),
+          inlinePadding: z.string().optional()
+        }).optional(),
+        secondaryButton: z.object({
+          background: z.string().optional(),
+          border: z.string().optional(),
+          cornerRadius: z.string().optional(),
+          blockPadding: z.string().optional(),
+          inlinePadding: z.string().optional()
+        }).optional(),
+        color: z.object({
+          primary: z.string().optional(),
+          background: z.string().optional(),
+          error: z.string().optional()
+        }).optional()
+      }).optional()
+    })
+  },
+  async (args) => {
+    const result = await checkoutBrandingUpsert.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered collection-add-products");
+server.tool(
+  "collection-add-products",
+  {
+    collectionId: z.string().min(1, "Collection ID is required"),
+    productIds: z.array(z.string()).nonempty("At least one product ID is required")
+  },
+  async (args) => {
+    const result = await collectionAddProducts.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered collection-publish");
+server.tool(
+  "collection-publish",
+  {
+    id: z.string().min(1, "Collection ID is required"),
+    input: z.object({
+      publications: z.array(
+        z.object({
+          channelId: z.string().min(1, "Channel ID is required"),
+          publishDate: z.string().optional()
+        })
+      ).nonempty("At least one publication is required")
+    })
+  },
+  async (args) => {
+    const result = await collectionPublish.execute(args);
     return { content: [{ type: "text", text: JSON.stringify(result) }] };
   }
 );
