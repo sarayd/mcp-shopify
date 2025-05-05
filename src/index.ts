@@ -753,15 +753,27 @@ server.tool(
       .array(
         z.object({
           alt: z.string().optional(),
-          mediaContentType: z.string(),
-          originalSource: z.string()
+          mediaContentType: z.enum(['VIDEO', 'EXTERNAL_VIDEO', 'MODEL_3D', 'IMAGE']).describe('Type of media: VIDEO, EXTERNAL_VIDEO, MODEL_3D, or IMAGE'),
+          originalSource: z.string().describe('URL or path to the media file')
         })
       )
       .nonempty("At least one media object is required"),
     productId: z.string().min(1, "Product ID is required")
   },
   async (args) => {
-    const result = await productCreateMedia.execute(args);
+    const media = args.media.map(m => ({
+      alt: m.alt,
+      mediaContentType: m.mediaContentType,
+      originalSource: m.originalSource
+    }));
+    
+    const result = await productCreateMedia.execute({
+      media: media as [
+        { mediaContentType: 'VIDEO' | 'EXTERNAL_VIDEO' | 'MODEL_3D' | 'IMAGE'; originalSource: string; alt?: string },
+        ...{ mediaContentType: 'VIDEO' | 'EXTERNAL_VIDEO' | 'MODEL_3D' | 'IMAGE'; originalSource: string; alt?: string }[]
+      ],
+      productId: args.productId
+    });
     return { content: [{ type: "text", text: JSON.stringify(result) }] };
   }
 );
@@ -788,18 +800,33 @@ server.tool(
 server.tool(
   "update-product-media",
   {
+    id: z.string().min(1, "Product ID is required"),
     media: z
       .array(
         z.object({
           id: z.string(),
-          alt: z.string().optional()
+          alt: z.string().optional(),
+          mediaContentType: z.enum(['VIDEO', 'EXTERNAL_VIDEO', 'MODEL_3D', 'IMAGE']).optional(),
+          originalSource: z.string().optional()
         })
       )
-      .nonempty("At least one media update is required"),
-    productId: z.string().min(1, "Product ID is required")
+      .nonempty("At least one media update is required")
   },
   async (args) => {
-    const result = await productUpdateMedia.execute(args);
+    const media = args.media.map(m => ({
+      id: m.id,
+      alt: m.alt,
+      mediaContentType: m.mediaContentType,
+      originalSource: m.originalSource || '' // Provide a default empty string if undefined
+    }));
+    
+    const result = await productUpdateMedia.execute({
+      id: args.id,
+      media: media as [
+        { id: string; mediaContentType: 'VIDEO' | 'EXTERNAL_VIDEO' | 'MODEL_3D' | 'IMAGE'; originalSource: string; alt?: string },
+        ...{ id: string; mediaContentType: 'VIDEO' | 'EXTERNAL_VIDEO' | 'MODEL_3D' | 'IMAGE'; originalSource: string; alt?: string }[]
+      ]
+    });
     return { content: [{ type: "text", text: JSON.stringify(result) }] };
   }
 );
