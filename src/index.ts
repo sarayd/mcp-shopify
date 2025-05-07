@@ -74,6 +74,70 @@ import { catalogDelete } from "./tools/catalogDelete.js";
 import { checkoutBrandingUpsert } from "./tools/checkoutBrandingUpsert.js";
 import { collectionAddProducts } from "./tools/collectionAddProducts.js";
 import { collectionPublish } from "./tools/collectionPublish.js";
+// Import new tools (first batch, remaining 5)
+import { collectionReorderProducts } from "./tools/collectionReorderProducts.js";
+import { collectionUpdate } from "./tools/collectionUpdate.js";
+import { commentApprove } from "./tools/commentApprove.js";
+import { commentDelete } from "./tools/commentDelete.js";
+import { companiesDelete } from "./tools/companiesDelete.js";
+
+// Import new tools (second batch, 15 provided)
+import { companyAddressDelete } from "./tools/companyAddressDelete.js";
+import { companyAssignMainContact } from "./tools/companyAssignMainContact.js";
+import { companyContactAssignRole } from "./tools/companyContactAssignRole.js";
+import { companyContactAssignRoles } from "./tools/companyContactAssignRoles.js";
+import { companyContactCreate } from "./tools/companyContactCreate.js";
+import { companyContactRemoveFromCompany } from "./tools/companyContactRemoveFromCompany.js";
+import { companyDelete } from "./tools/companyDelete.js";
+import { companyLocationAssignAddress } from "./tools/companyLocationAssignAddress.js";
+import { companyLocationAssignRoles } from "./tools/companyLocationAssignRoles.js";
+import { companyLocationAssignTaxExemptions } from "./tools/companyLocationAssignTaxExemptions.js";
+import { companyLocationCreateTaxRegistration } from "./tools/companyLocationCreateTaxRegistration.js";
+import { companyLocationDelete } from "./tools/companyLocationDelete.js";
+import { companyLocationRemoveStaffMembers } from "./tools/companyLocationRemoveStaffMembers.js";
+import { companyLocationRevokeTaxExemptions } from "./tools/companyLocationRevokeTaxExemptions.js";
+import { companyLocationsDelete } from "./tools/companyLocationsDelete.js";
+import { consentPolicyUpdate } from "./tools/consentPolicyUpdate.js";
+import { customerDelete } from "./tools/customerDelete.js";
+import { customerEmailMarketingConsentUpdate } from "./tools/customerEmailMarketingConsentUpdate.js";
+import { customerPaymentMethodCreditCardUpdate } from "./tools/customerPaymentMethodCreditCardUpdate.js";
+import { customerPaymentMethodGetUpdateUrl } from "./tools/customerPaymentMethodGetUpdateUrl.js";
+import { customerPaymentMethodRemoteCreate } from "./tools/customerPaymentMethodRemoteCreate.js";
+import { customerPaymentMethodRevoke } from "./tools/customerPaymentMethodRevoke.js";
+import { customerPaymentMethodSendUpdateEmail } from "./tools/customerPaymentMethodSendUpdateEmail.js";
+import { customerReplaceTaxExemptions } from "./tools/customerReplaceTaxExemptions.js";
+import { customerRequestDataErasure } from "./tools/customerRequestDataErasure.js";
+import { customerSendAccountInviteEmail } from "./tools/customerSendAccountInviteEmail.js";
+import { customerSet } from "./tools/customerSet.js";
+import { delegateAccessTokenDestroy } from "./tools/delegateAccessTokenDestroy.js";
+import { deliveryCustomizationActivation } from "./tools/deliveryCustomizationActivation.js";
+import { deliveryCustomizationCreate } from "./tools/deliveryCustomizationCreate.js";
+import { deliveryCustomizationUpdate } from "./tools/deliveryCustomizationUpdate.js";
+import { deliveryPromiseParticipantsUpdate } from "./tools/deliveryPromiseParticipantsUpdate.js";
+import { deliveryPromiseProviderUpsert } from "./tools/deliveryPromiseProviderUpsert.js";
+import { deliverySettingUpdate } from "./tools/deliverySettingUpdate.js";
+import { deliveryShippingOriginAssign } from "./tools/deliveryShippingOriginAssign.js";
+import { discountAutomaticActivate } from "./tools/discountAutomaticActivate.js";
+import { discountAutomaticBasicCreate } from "./tools/discountAutomaticBasicCreate.js";
+import { discountAutomaticBasicUpdate } from "./tools/discountAutomaticBasicUpdate.js";
+import { discountAutomaticBxgyUpdate } from "./tools/discountAutomaticBxgyUpdate.js";
+import { discountAutomaticDeactivate } from "./tools/discountAutomaticDeactivate.js";
+import { discountAutomaticDelete } from "./tools/discountAutomaticDelete.js";
+import { discountCodeBasicCreate } from "./tools/discountCodeBasicCreate.js";
+import { discountCodeBasicUpdate } from "./tools/discountCodeBasicUpdate.js";
+import { discountCodeBulkDeactivate } from "./tools/discountCodeBulkDeactivate.js";
+import { discountCodeBxgyCreate } from "./tools/discountCodeBxgyCreate.js";
+import { discountCodeBxgyUpdate } from "./tools/discountCodeBxgyUpdate.js";
+import { discountCodeDeactivate } from "./tools/discountCodeDeactivate.js";
+import { discountCodeFreeShippingCreate } from "./tools/discountCodeFreeShippingCreate.js";
+import { discountCodeRedeemCodeBulkDelete } from "./tools/discountCodeRedeemCodeBulkDelete.js";
+import { discountRedeemCodeBulkAdd } from "./tools/discountRedeemCodeBulkAdd.js";
+import { disputeEvidenceUpdate } from "./tools/disputeEvidenceUpdate.js";
+import { draftOrderCreateMerchantCheckout } from "./tools/draftOrderCreateMerchantCheckout.js";
+import { draftOrderDelete } from "./tools/draftOrderDelete.js";
+import { draftOrderInvoicePreview } from "./tools/draftOrderInvoicePreview.js";
+import { fileAcknowledgeUpdateFailed } from "./tools/fileAcknowledgeUpdateFailed.js";
+
 
 // Parse command line arguments
 const argv = minimist(process.argv.slice(2));
@@ -169,6 +233,44 @@ companyLocationTaxSettingsUpdate.initialize(shopifyClient);
 priceListCreate.initialize(shopifyClient);
 subscriptionBillingCycleEditsDelete.initialize(shopifyClient);
 companyContactRevokeRole.initialize(shopifyClient);
+customerEmailMarketingConsentUpdate.initialize(shopifyClient);
+customerPaymentMethodCreditCardUpdate.initialize(shopifyClient);
+customerPaymentMethodGetUpdateUrl.initialize(shopifyClient);
+customerPaymentMethodRemoteCreate.initialize(shopifyClient);
+customerPaymentMethodRevoke.initialize(shopifyClient);
+customerPaymentMethodSendUpdateEmail.initialize(shopifyClient);
+customerReplaceTaxExemptions.initialize(shopifyClient);
+customerRequestDataErasure.initialize(shopifyClient);
+customerSendAccountInviteEmail.initialize(shopifyClient);
+customerSet.initialize(shopifyClient);
+delegateAccessTokenDestroy.initialize(shopifyClient);
+deliveryCustomizationActivation.initialize(shopifyClient);
+deliveryCustomizationCreate.initialize(shopifyClient);
+deliveryCustomizationUpdate.initialize(shopifyClient);
+deliveryPromiseParticipantsUpdate.initialize(shopifyClient);
+deliveryPromiseProviderUpsert.initialize(shopifyClient);
+deliverySettingUpdate.initialize(shopifyClient);
+deliveryShippingOriginAssign.initialize(shopifyClient);
+discountAutomaticActivate.initialize(shopifyClient);
+discountAutomaticBasicCreate.initialize(shopifyClient);
+discountAutomaticBasicUpdate.initialize(shopifyClient);
+discountAutomaticBxgyUpdate.initialize(shopifyClient);
+discountAutomaticDeactivate.initialize(shopifyClient);
+discountAutomaticDelete.initialize(shopifyClient);
+discountCodeBasicCreate.initialize(shopifyClient);
+discountCodeBasicUpdate.initialize(shopifyClient);
+discountCodeBulkDeactivate.initialize(shopifyClient);
+discountCodeBxgyCreate.initialize(shopifyClient);
+discountCodeBxgyUpdate.initialize(shopifyClient);
+discountCodeDeactivate.initialize(shopifyClient);
+discountCodeFreeShippingCreate.initialize(shopifyClient);
+discountCodeRedeemCodeBulkDelete.initialize(shopifyClient);
+discountRedeemCodeBulkAdd.initialize(shopifyClient);
+disputeEvidenceUpdate.initialize(shopifyClient);
+draftOrderCreateMerchantCheckout.initialize(shopifyClient);
+draftOrderDelete.initialize(shopifyClient);
+draftOrderInvoicePreview.initialize(shopifyClient);
+fileAcknowledgeUpdateFailed.initialize(shopifyClient);
 
 // Set up MCP server
 const server = new McpServer({
@@ -1727,6 +1829,1543 @@ server.tool(
   },
   async (args) => {
     const result = await collectionPublish.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+// Register new tools (first batch, remaining 5)
+console.error("Registered collection-reorder-products");
+server.tool(
+  "collection-reorder-products",
+  {
+    id: z.string().min(1, "Collection ID is required"),
+    moves: z.array(
+      z.object({
+        id: z.string().min(1, "Product ID is required"),
+        newPosition: z.number().int().nonnegative()
+      })
+    ).nonempty("At least one move is required")
+  },
+  async (args) => {
+    const result = await collectionReorderProducts.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered collection-update");
+server.tool(
+  "collection-update",
+  {
+    id: z.string().min(1, "Collection ID is required"),
+    input: z.object({
+      descriptionHtml: z.string().optional(),
+      handle: z.string().optional(),
+      image: z.object({
+        altText: z.string().optional(),
+        id: z.string().optional(),
+        src: z.string().optional()
+      }).optional(),
+      metafields: z.array(
+        z.object({
+          description: z.string().optional(),
+          id: z.string().optional(),
+          key: z.string(),
+          namespace: z.string(),
+          type: z.string(),
+          value: z.string()
+        })
+      ).optional(),
+      privateMetafields: z.array(
+        z.object({
+          key: z.string(),
+          namespace: z.string(),
+          owner: z.string(),
+          valueInput: z.object({
+            value: z.string(),
+            valueType: z.string()
+          })
+        })
+      ).optional(),
+      products: z.object({
+        add: z.array(z.string()).optional(),
+        remove: z.array(z.string()).optional()
+      }).optional(),
+      ruleSet: z.object({
+        appliedDisjunctively: z.boolean().optional(),
+        rules: z.array(
+          z.object({
+            column: z.string(),
+            condition: z.string(),
+            relation: z.string()
+          })
+        )
+      }).optional(),
+      seo: z.object({
+        description: z.string().optional(),
+        title: z.string().optional()
+      }).optional(),
+      sortOrder: z.string().optional(),
+      title: z.string().optional()
+    })
+  },
+  async (args) => {
+    const result = await collectionUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered comment-approve");
+server.tool(
+  "comment-approve",
+  {
+    id: z.string().min(1, "Comment ID is required")
+  },
+  async (args) => {
+    const result = await commentApprove.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered comment-delete");
+server.tool(
+  "comment-delete",
+  {
+    id: z.string().min(1, "Comment ID is required")
+  },
+  async (args) => {
+    const result = await commentDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered companies-delete");
+server.tool(
+  "companies-delete",
+  {
+    companyId: z.string().min(1, "Company ID is required")
+  },
+  async (args) => {
+    const result = await companiesDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+// Register new tools (second batch, 15 provided)
+console.error("Registered company-address-delete");
+server.tool(
+  "company-address-delete",
+  {
+    id: z.string().min(1, "Company address ID is required")
+  },
+  async (args) => {
+    const result = await companyAddressDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-assign-main-contact");
+server.tool(
+  "company-assign-main-contact",
+  {
+    companyId: z.string().min(1, "Company ID is required"),
+    companyContactId: z.string().min(1, "Company Contact ID is required")
+  },
+  async (args) => {
+    const result = await companyAssignMainContact.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-contact-assign-role");
+server.tool(
+  "company-contact-assign-role",
+  {
+    companyContactId: z.string().min(1, "Company Contact ID is required"),
+    roleId: z.string().min(1, "Role ID is required"),
+    companyLocationId: z.string().optional()
+  },
+  async (args) => {
+    const result = await companyContactAssignRole.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-contact-assign-roles");
+server.tool(
+  "company-contact-assign-roles",
+  {
+    companyContactId: z.string().min(1, "Company contact ID is required"),
+    roleIds: z.array(z.string()).nonempty("At least one role ID is required"),
+    companyLocationId: z.string().optional()
+  },
+  async (args) => {
+    const result = await companyContactAssignRoles.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-contact-create");
+server.tool(
+  "company-contact-create",
+  {
+    companyId: z.string().min(1, "Company ID is required"),
+    input: z.object({
+      firstName: z.string().optional(),
+      lastName: z.string().optional(),
+      email: z.string().email().optional(),
+      title: z.string().optional(),
+      locale: z.string().optional(),
+      phone: z.string().optional(),
+      isMain: z.boolean().optional(),
+      marketingAcceptsEmailMarketing: z.boolean().optional()
+    })
+  },
+  async (args) => {
+    const result = await companyContactCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-contact-remove-from-company");
+server.tool(
+  "company-contact-remove-from-company",
+  {
+    companyContactId: z.string().min(1, "Company Contact ID is required"),
+    companyId: z.string().min(1, "Company ID is required")
+  },
+  async (args) => {
+    const result = await companyContactRemoveFromCompany.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-delete");
+server.tool(
+  "company-delete",
+  {
+    id: z.string().min(1, "Company ID is required")
+  },
+  async (args) => {
+    const result = await companyDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-location-assign-address");
+server.tool(
+  "company-location-assign-address",
+  {
+    companyLocationId: z.string().min(1, "Company location ID is required"),
+    address: z.object({
+      address1: z.string().optional(),
+      address2: z.string().optional(),
+      city: z.string().optional(),
+      country: z.string().optional(),
+      countryCode: z.string().optional(),
+      phone: z.string().optional(),
+      province: z.string().optional(),
+      provinceCode: z.string().optional(),
+      zip: z.string().optional()
+    })
+  },
+  async (args) => {
+    const result = await companyLocationAssignAddress.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-location-assign-roles");
+server.tool(
+  "company-location-assign-roles",
+  {
+    companyLocationId: z.string().min(1, "Company location ID is required"),
+    roleAssignments: z.array(
+      z.object({
+        roleId: z.string().min(1, "Role ID is required"),
+        userIds: z.array(z.string()).nonempty("At least one user ID is required")
+      })
+    ).nonempty("At least one role assignment is required")
+  },
+  async (args) => {
+    const result = await companyLocationAssignRoles.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-location-assign-tax-exemptions");
+server.tool(
+  "company-location-assign-tax-exemptions",
+  {
+    companyLocationId: z.string().min(1, "Company Location ID is required"),
+    taxExemptions: z.array(
+      z.enum([
+        'EXEMPT_ALL',
+        'CA_STATUS_CARD_EXEMPTION',
+        'CA_DIPLOMAT_EXEMPTION',
+        'CA_BC_RESELLER_EXEMPTION',
+        'CA_MB_RESELLER_EXEMPTION',
+        'CA_SK_RESELLER_EXEMPTION',
+        'CA_BC_COMMERCIAL_FISHERY_EXEMPTION',
+        'CA_MB_COMMERCIAL_FISHERY_EXEMPTION',
+        'CA_NS_COMMERCIAL_FISHERY_EXEMPTION',
+        'CA_PE_COMMERCIAL_FISHERY_EXEMPTION',
+        'CA_SK_COMMERCIAL_FISHERY_EXEMPTION',
+        'CA_BC_PRODUCTION_AND_MACHINERY_EXEMPTION',
+        'CA_SK_PRODUCTION_AND_MACHINERY_EXEMPTION',
+        'CA_BC_SUB_CONTRACTOR_EXEMPTION',
+        'CA_SK_SUB_CONTRACTOR_EXEMPTION',
+        'CA_BC_CONTRACTOR_EXEMPTION',
+        'CA_SK_CONTRACTOR_EXEMPTION',
+        'CA_ON_PURCHASE_EXEMPTION',
+        'CA_MB_FARMER_EXEMPTION',
+        'CA_NS_FARMER_EXEMPTION',
+        'CA_SK_FARMER_EXEMPTION'
+      ])
+    ).nonempty("At least one tax exemption is required")
+  },
+  async (args) => {
+    const result = await companyLocationAssignTaxExemptions.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-location-create-tax-registration");
+server.tool(
+  "company-location-create-tax-registration",
+  {
+    companyLocationId: z.string().min(1, "Company location ID is required"),
+    taxRegistration: z.object({
+      taxNumber: z.string(),
+      taxNumberNormalized: z.string().optional(),
+      expiresOn: z.string().optional(),
+      registrationDate: z.string().optional(),
+      type: z.enum(['VAT', 'GST', 'OTHER']),
+      subType: z.string().optional()
+    })
+  },
+  async (args) => {
+    const result = await companyLocationCreateTaxRegistration.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-location-delete");
+server.tool(
+  "company-location-delete",
+  {
+    id: z.string().min(1, "Company Location ID is required")
+  },
+  async (args) => {
+    const result = await companyLocationDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-location-remove-staff-members");
+server.tool(
+  "company-location-remove-staff-members",
+  {
+    companyLocationId: z.string().min(1, "Company location ID is required"),
+    staffMemberIds: z.array(z.string()).nonempty("At least one staff member ID is required")
+  },
+  async (args) => {
+    const result = await companyLocationRemoveStaffMembers.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-location-revoke-tax-exemptions");
+server.tool(
+  "company-location-revoke-tax-exemptions",
+  {
+    id: z.string().min(1, "Company location ID is required").describe("The ID of the company location.")
+  },
+  async (args) => {
+    const result = await companyLocationRevokeTaxExemptions.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered company-locations-delete");
+server.tool(
+  "company-locations-delete",
+  {
+    id: z.string().min(1, "Location ID is required")
+  },
+  async (args) => {
+    const result = await companyLocationsDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered consent-policy-update");
+server.tool(
+  "consent-policy-update",
+  {
+    customText: z.string().optional(),
+    purposes: z.array(
+      z.object({
+        purpose: z.enum(['ESSENTIAL', 'ANALYTICS', 'PERSONALIZATION', 'MARKETING', 'UNCLASSIFIED']),
+        isRequired: z.boolean().optional(),
+        isEnabled: z.boolean().optional()
+      })
+    ).optional()
+  },
+  async (args) => {
+    const result = await consentPolicyUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-delete");
+server.tool(
+  "customer-delete",
+  {
+    id: z.string().min(1, "Customer ID is required")
+  },
+  async (args) => {
+    const result = await customerDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-email-marketing-consent-update");
+server.tool(
+  "customer-email-marketing-consent-update",
+  {
+    customerId: z.string().min(1, "Customer ID is required"),
+    emailMarketingConsent: z.object({
+      state: z.enum(['SUBSCRIBED', 'UNSUBSCRIBED', 'PENDING']),
+      marketingOptInLevel: z.enum(['SINGLE_OPT_IN', 'CONFIRMED_OPT_IN', 'UNKNOWN']).optional(),
+      marketingState: z.enum(['NOT_SUBSCRIBED', 'PENDING', 'SUBSCRIBED', 'UNSUBSCRIBED']).optional(),
+      consentUpdatedAt: z.string().datetime().optional()
+    })
+  },
+  async (args) => {
+    const result = await customerEmailMarketingConsentUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-payment-method-credit-card-update");
+server.tool(
+  "customer-payment-method-credit-card-update",
+  {
+    id: z.string().min(1, "Payment method ID is required"),
+    billingAddress: z
+      .object({
+        address1: z.string().optional(),
+        address2: z.string().optional(),
+        city: z.string().optional(),
+        company: z.string().optional(),
+        country: z.string().optional(),
+        countryCode: z.string().optional(),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+        phone: z.string().optional(),
+        province: z.string().optional(),
+        provinceCode: z.string().optional(),
+        zip: z.string().optional()
+      })
+      .optional(),
+    lastDigits: z.string().optional(),
+    month: z.number().int().min(1).max(12).optional(),
+    name: z.string().optional(),
+    year: z.number().int().min(2000).optional()
+  },
+  async (args) => {
+    const result = await customerPaymentMethodCreditCardUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-payment-method-get-update-url");
+server.tool(
+  "customer-payment-method-get-update-url",
+  {
+    id: z.string().min(1, "Payment method ID is required")
+  },
+  async (args) => {
+    const result = await customerPaymentMethodGetUpdateUrl.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-payment-method-remote-create");
+server.tool(
+  "customer-payment-method-remote-create",
+  {
+    customerId: z.string().min(1, "Customer ID is required"),
+    billingAddress: z
+      .object({
+        address1: z.string().optional(),
+        address2: z.string().optional(),
+        city: z.string().optional(),
+        company: z.string().optional(),
+        country: z.string().optional(),
+        countryCode: z.string().optional(),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+        phone: z.string().optional(),
+        province: z.string().optional(),
+        provinceCode: z.string().optional(),
+        zip: z.string().optional()
+      })
+      .optional(),
+    paymentMethod: z.object({
+      remoteReference: z.string().min(1, "Remote reference is required"),
+      type: z.enum(['PAYMENT_CARD', 'BANK_ACCOUNT']),
+      remoteUrl: z.string().optional(),
+      instrument: z
+        .object({
+          type: z.enum(['PAYMENT_CARD', 'BANK_ACCOUNT']),
+          brand: z.string().optional(),
+          expireMonth: z.number().optional(),
+          expireYear: z.number().optional(),
+          sourceType: z.string().optional(),
+          lastDigits: z.string().optional(),
+          name: z.string().optional(),
+          issuingCountry: z.string().optional(),
+          bankName: z.string().optional(),
+          accountNumber: z.string().optional(),
+          transitNumber: z.string().optional(),
+          institutionNumber: z.string().optional()
+        })
+        .optional()
+    })
+  },
+  async (args) => {
+    const result = await customerPaymentMethodRemoteCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-payment-method-revoke");
+server.tool(
+  "customer-payment-method-revoke",
+  {
+    customerId: z.string().min(1, "Customer ID is required"),
+    paymentMethodId: z.string().min(1, "Payment method ID is required")
+  },
+  async (args) => {
+    const result = await customerPaymentMethodRevoke.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-payment-method-send-update-email");
+server.tool(
+  "customer-payment-method-send-update-email",
+  {
+    customerPaymentMethodId: z.string().min(1, "Customer payment method ID is required")
+  },
+  async (args) => {
+    const result = await customerPaymentMethodSendUpdateEmail.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-replace-tax-exemptions");
+server.tool(
+  "customer-replace-tax-exemptions",
+  {
+    customerId: z.string().min(1, "Customer ID is required"),
+    taxExemptions: z
+      .array(
+        z.enum([
+          'EXEMPT_ALL',
+          'CA_STATUS_CARD_EXEMPTION',
+          'CA_DIPLOMAT_EXEMPTION',
+          'CA_BC_RESELLER_EXEMPTION',
+          'CA_MB_RESELLER_EXEMPTION',
+          'CA_SK_RESELLER_EXEMPTION',
+          'CA_BC_COMMERCIAL_FISHERY_EXEMPTION',
+          'CA_MB_COMMERCIAL_FISHERY_EXEMPTION',
+          'CA_NS_COMMERCIAL_FISHERY_EXEMPTION',
+          'CA_PE_COMMERCIAL_FISHERY_EXEMPTION',
+          'CA_SK_COMMERCIAL_FISHERY_EXEMPTION',
+          'CA_BC_PRODUCTION_AND_MACHINERY_EXEMPTION',
+          'CA_SK_PRODUCTION_AND_MACHINERY_EXEMPTION',
+          'CA_BC_SUB_CONTRACTOR_EXEMPTION',
+          'CA_SK_SUB_CONTRACTOR_EXEMPTION',
+          'CA_BC_CONTRACTOR_EXEMPTION',
+          'CA_SK_CONTRACTOR_EXEMPTION',
+          'CA_ON_PURCHASE_EXEMPTION',
+          'CA_MB_FARMER_EXEMPTION',
+          'CA_NS_FARMER_EXEMPTION',
+          'CA_SK_FARMER_EXEMPTION'
+        ])
+      )
+      .min(0)
+  },
+  async (args) => {
+    const result = await customerReplaceTaxExemptions.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-request-data-erasure");
+server.tool(
+  "customer-request-data-erasure",
+  {
+    customerId: z.string().min(1, "Customer ID is required")
+  },
+  async (args) => {
+    const result = await customerRequestDataErasure.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-send-account-invite-email");
+server.tool(
+  "customer-send-account-invite-email",
+  {
+    customerId: z.string().min(1, "Customer ID is required")
+  },
+  async (args) => {
+    const result = await customerSendAccountInviteEmail.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered customer-set");
+server.tool(
+  "customer-set",
+  {
+    input: z.object({
+      id: z.string().min(1, "Customer ID is required"),
+      addresses: z
+        .array(
+          z.object({
+            address1: z.string().optional(),
+            address2: z.string().optional(),
+            city: z.string().optional(),
+            company: z.string().optional(),
+            country: z.string().optional(),
+            countryCode: z.string().optional(),
+            firstName: z.string().optional(),
+            lastName: z.string().optional(),
+            phone: z.string().optional(),
+            province: z.string().optional(),
+            provinceCode: z.string().optional(),
+            zip: z.string().optional()
+          })
+        )
+        .optional(),
+      email: z.string().email().optional(),
+      firstName: z.string().optional(),
+      lastName: z.string().optional(),
+      locale: z.string().optional(),
+      note: z.string().optional(),
+      phone: z.string().optional(),
+      tags: z.array(z.string()).optional(),
+      taxExempt: z.boolean().optional(),
+      taxExemptions: z
+        .array(
+          z.enum([
+            'FEDERAL_GOVERNMENT',
+            'STATE_GOVERNMENT',
+            'OTHER',
+            'DIPLOMATIC',
+            'INDUSTRIAL_EQUIPMENT',
+            'MANUFACTURING',
+            'RESALE',
+            'REDUCED_RATED',
+            'POINT_OF_SALE_EXEMPT'
+          ])
+        )
+        .optional()
+    })
+  },
+  async (args) => {
+    const result = await customerSet.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered delegate-access-token-destroy");
+server.tool(
+  "delegate-access-token-destroy",
+  {
+    delegateAccessToken: z.string().min(1, "Delegate access token is required"),
+    shopId: z.string().min(1, "Shop ID is required")
+  },
+  async (args) => {
+    const result = await delegateAccessTokenDestroy.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered delivery-customization-activation");
+server.tool(
+  "delivery-customization-activation",
+  {
+    id: z.string().min(1, "Delivery customization ID is required"),
+    activate: z.boolean(),
+    automaticallyActivateNewLocations: z.boolean().optional()
+  },
+  async (args) => {
+    const result = await deliveryCustomizationActivation.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered delivery-customization-create");
+server.tool(
+  "delivery-customization-create",
+  {
+    input: z.object({
+      automaticDeliveryOptionEligibility: z
+        .object({
+          enabled: z.boolean(),
+          methodTypes: z
+            .array(z.enum(['LOCAL', 'SHIPPING', 'PICKUP_POINT', 'RETAIL', 'NONE']))
+            .optional()
+        })
+        .optional(),
+      functionId: z.string().min(1, "Function ID is required"),
+      metafields: z
+        .array(
+          z.object({
+            key: z.string().min(1),
+            namespace: z.string().min(1),
+            type: z.string().min(1),
+            value: z.string().min(1)
+          })
+        )
+        .optional(),
+      title: z.string().min(1, "Title is required")
+    })
+  },
+  async (args) => {
+    const result = await deliveryCustomizationCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered delivery-customization-update");
+server.tool(
+  "delivery-customization-update",
+  {
+    id: z.string().min(1, "Delivery customization ID is required"),
+    deliveryCustomization: z.object({
+      active: z.boolean().optional(),
+      functionId: z.string().optional(),
+      metafields: z
+        .array(
+          z.object({
+            key: z.string().min(1),
+            namespace: z.string().min(1),
+            type: z.string().min(1),
+            value: z.string().min(1)
+          })
+        )
+        .optional(),
+      title: z.string().optional()
+    })
+  },
+  async (args) => {
+    const result = await deliveryCustomizationUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered delivery-promise-participants-update");
+server.tool(
+  "delivery-promise-participants-update",
+  {
+    deliveryPromiseParticipantIds: z
+      .array(z.string())
+      .nonempty("At least one participant ID is required"),
+    deliveryPromiseServiceLevel: z.object({
+      name: z.string().min(1, "Service level name is required"),
+      deliveryMethodDefinition: z.object({
+        methodType: z.enum(["LOCAL", "NONE", "PICKUP", "RETAIL", "SHIPPING"]),
+        maxPromiseDate: z.string().optional(),
+        minPromiseDate: z.string().optional(),
+        promiseApplicableTo: z.enum(["DELIVERY", "READY_FOR_PICKUP"]).optional()
+      })
+    })
+  },
+  async (args) => {
+    const result = await deliveryPromiseParticipantsUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered delivery-promise-provider-upsert");
+server.tool(
+  "delivery-promise-provider-upsert",
+  {
+    input: z.object({
+      id: z.string().optional(),
+      name: z.string().min(1, "Name is required"),
+      type: z.enum(['MERCHANT_DEFINED', 'THIRD_PARTY']),
+      active: z.boolean(),
+      fulfillmentType: z.enum(['PICKUP', 'SHIPPING']),
+      methodType: z.enum(['DELIVERY', 'PICKUP']),
+      minDeliveryDateTime: z.string().datetime().optional(),
+      maxDeliveryDateTime: z.string().datetime().optional(),
+      minTransitTime: z
+        .object({
+          interval: z.number(),
+          unit: z.enum(['HOURS', 'DAYS', 'WEEKS', 'MONTHS'])
+        })
+        .optional(),
+      maxTransitTime: z
+        .object({
+          interval: z.number(),
+          unit: z.enum(['HOURS', 'DAYS', 'WEEKS', 'MONTHS'])
+        })
+        .optional()
+    })
+  },
+  async (args) => {
+    const result = await deliveryPromiseProviderUpsert.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered delivery-setting-update");
+server.tool(
+  "delivery-setting-update",
+  {
+    id: z.string().min(1, "Delivery setting ID is required"),
+    automaticFulfillmentForDigitalProducts: z.boolean().optional(),
+    deliveryMethodDefinitionOverrides: z
+      .array(
+        z.object({
+          id: z.string().min(1),
+          label: z.string().optional(),
+          methodType: z.string().optional(),
+          zoneId: z.string().optional()
+        })
+      )
+      .optional(),
+    legacyModeBlocked: z.boolean().optional(),
+    requirePhoneNumber: z.boolean().optional()
+  },
+  async (args) => {
+    const result = await deliverySettingUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered delivery-shipping-origin-assign");
+server.tool(
+  "delivery-shipping-origin-assign",
+  {
+    locationId: z.string().min(1, "Location ID is required"),
+    deliveryProfileId: z.string().min(1, "Delivery profile ID is required")
+  },
+  async (args) => {
+    const result = await deliveryShippingOriginAssign.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+
+// Register new discount, draft order, and file tools
+console.error("Registered discount-automatic-activate");
+server.tool(
+  "discount-automatic-activate",
+  {
+    id: z.string().min(1, "Discount ID is required")
+  },
+  async (args) => {
+    const result = await discountAutomaticActivate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-automatic-basic-create");
+server.tool(
+  "discount-automatic-basic-create",
+  {
+    automaticBasicDiscount: z.object({
+      title: z.string().min(1, "Title is required"),
+      startsAt: z.string().optional(),
+      endsAt: z.string().optional(),
+      minimumRequirement: z.object({
+        quantity: z.object({
+          greaterThanOrEqualToQuantity: z.number()
+        }).optional(),
+        subtotal: z.object({
+          greaterThanOrEqualToSubtotal: z.number()
+        }).optional()
+      }).optional(),
+      customerSelection: z.object({
+        customers: z.object({
+          customersToAdd: z.array(z.string())
+        }).optional(),
+        segments: z.object({
+          segmentsToAdd: z.array(z.string())
+        }).optional()
+      }).optional(),
+      customerGets: z.object({
+        value: z.object({
+          percentage: z.number().optional(),
+          amount: z.object({
+            amount: z.number(),
+            currencyCode: z.string()
+          }).optional()
+        }).refine(data => data.percentage !== undefined || data.amount !== undefined, {
+          message: "Either percentage or amount must be provided"
+        }),
+        items: z.object({
+          products: z.object({
+            productsToAdd: z.array(z.string())
+          }).optional(),
+          collections: z.object({
+            collectionsToAdd: z.array(z.string())
+          }).optional(),
+          variants: z.object({
+            variantsToAdd: z.array(z.string())
+          }).optional()
+        }).optional()
+      }),
+      combinesWith: z.object({
+        orderDiscounts: z.boolean().optional(),
+        productDiscounts: z.boolean().optional(),
+        shippingDiscounts: z.boolean().optional()
+      }).optional(),
+      usageLimit: z.number().int().positive().optional()
+    })
+  },
+  async (args) => {
+    const result = await discountAutomaticBasicCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-automatic-basic-update");
+server.tool(
+  "discount-automatic-basic-update",
+  {
+    id: z.string().min(1, "Discount ID is required"),
+    automaticBasicDiscount: z.object({
+      combinesWith: z.object({
+        orderDiscounts: z.boolean().optional(),
+        productDiscounts: z.boolean().optional(),
+        shippingDiscounts: z.boolean().optional()
+      }).optional(),
+      customerGets: z.object({
+        items: z.object({
+          products: z.object({
+            productsToAdd: z.array(z.string()).optional(),
+            productsToRemove: z.array(z.string()).optional()
+          }).optional(),
+          collections: z.object({
+            collectionsToAdd: z.array(z.string()).optional(),
+            collectionsToRemove: z.array(z.string()).optional()
+          }).optional()
+        }).optional(),
+        value: z.object({
+          percentage: z.number().optional(),
+          amount: z.number().optional()
+        })
+      }).optional(),
+      customerSelection: z.object({
+        customers: z.object({
+          customersToAdd: z.array(z.string()).optional(),
+          customersToRemove: z.array(z.string()).optional()
+        }).optional(),
+        segments: z.object({
+          segmentsToAdd: z.array(z.string()).optional(),
+          segmentsToRemove: z.array(z.string()).optional()
+        }).optional()
+      }).optional(),
+      endsAt: z.string().datetime().optional(),
+      minimumRequirement: z.object({
+        quantity: z.number().int().optional(),
+        subtotal: z.number().optional()
+      }).optional(),
+      startsAt: z.string().datetime().optional(),
+      title: z.string().optional(),
+      usageLimit: z.number().int().optional()
+    })
+  },
+  async (args) => {
+    const result = await discountAutomaticBasicUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-automatic-bxgy-update");
+server.tool(
+  "discount-automatic-bxgy-update",
+  {
+    id: z.string(),
+    automaticBxgyDiscount: z.object({
+      customerBuys: z.object({
+        items: z.object({
+          products: z.object({
+            productVariants: z.array(z.object({ id: z.string() })).optional(),
+            productIds: z.array(z.string()).optional(),
+            collectionIds: z.array(z.string()).optional()
+          }).optional()
+        }).optional(),
+        value: z.object({
+          quantity: z.number().int().min(1)
+        })
+      }),
+      customerGets: z.object({
+        items: z.object({
+          products: z.object({
+            productVariants: z.array(z.object({ id: z.string() })).optional(),
+            productIds: z.array(z.string()).optional(),
+            collectionIds: z.array(z.string()).optional()
+          }).optional()
+        }).optional(),
+        value: z.object({
+          percentage: z.number().min(0).max(100).optional(),
+          amount: z.number().min(0).optional(),
+          discountOnQuantity: z.enum(['ALL', 'EQUAL']).optional()
+        })
+      }),
+      title: z.string(),
+      startsAt: z.string().datetime(),
+      endsAt: z.string().datetime().optional(),
+      usageLimit: z.number().int().min(1).optional(),
+      customerSelection: z.object({
+        customers: z.object({
+          customerIds: z.array(z.string()).optional(),
+          segmentIds: z.array(z.string()).optional()
+        }).optional()
+      }).optional(),
+      minimumRequirement: z.object({
+        subtotal: z.number().min(0).optional(),
+        quantity: z.number().int().min(1).optional()
+      }).optional()
+    })
+  },
+  async (args) => {
+    const result = await discountAutomaticBxgyUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-automatic-deactivate");
+server.tool(
+  "discount-automatic-deactivate",
+  {
+    id: z.string().min(1, "Discount ID is required")
+  },
+  async (args) => {
+    const result = await discountAutomaticDeactivate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-automatic-delete");
+server.tool(
+  "discount-automatic-delete",
+  {
+    id: z.string().min(1, "Discount ID is required")
+  },
+  async (args) => {
+    const result = await discountAutomaticDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-code-basic-create");
+server.tool(
+  "discount-code-basic-create",
+  {
+    basicCodeDiscount: z.object({
+      title: z.string().min(1, "Title is required"),
+      code: z.string().min(1, "Code is required"),
+      startsAt: z.string().datetime().optional(),
+      endsAt: z.string().datetime().optional(),
+      usageLimit: z.number().int().positive().optional(),
+      appliesOncePerCustomer: z.boolean().optional(),
+      customerSelection: z.object({
+        all: z.boolean().optional(),
+        customers: z.object({
+          add: z.array(z.string()).optional()
+        }).optional(),
+        segments: z.array(z.string()).optional()
+      }).optional(),
+      customerGets: z.object({
+        value: z.object({
+          percentage: z.number().min(0).max(100),
+          amount: z.object({
+            amount: z.number(),
+            currencyCode: z.string()
+          })
+        }).partial().refine(data => data.percentage !== undefined || data.amount !== undefined, {
+          message: "Either percentage or amount must be provided"
+        }),
+        items: z.object({
+          all: z.boolean().optional(),
+          products: z.object({
+            add: z.array(z.string())
+          }).optional(),
+          collections: z.object({
+            add: z.array(z.string())
+          }).optional(),
+          variants: z.object({
+            add: z.array(z.string())
+          }).optional()
+        }).optional()
+      }),
+      minimumRequirement: z.object({
+        subtotal: z.object({
+          greaterThanOrEqualToAmount: z.number()
+        }).optional(),
+        quantity: z.object({
+          greaterThanOrEqualToQuantity: z.number()
+        }).optional()
+      }).optional(),
+      combinesWith: z.object({
+        orderDiscounts: z.boolean().optional(),
+        productDiscounts: z.boolean().optional(),
+        shippingDiscounts: z.boolean().optional()
+      }).optional()
+    })
+  },
+  async (args) => {
+    const result = await discountCodeBasicCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-code-basic-update");
+server.tool(
+  "discount-code-basic-update",
+  {
+    id: z.string().min(1, "Discount ID is required"),
+    basicCodeDiscount: z.object({
+      appliesOncePerCustomer: z.boolean().optional(),
+      code: z.string().optional(),
+      customerSelection: z.object({
+        segments: z.array(z.object({ id: z.string() })).optional(),
+        customers: z.array(z.object({ id: z.string() })).optional()
+      }).optional(),
+      endsAt: z.string().optional(),
+      minimumRequirement: z.object({
+        quantity: z.object({
+          greaterThanOrEqualToQuantity: z.number()
+        }).optional(),
+        subtotal: z.object({
+          greaterThanOrEqualToAmount: z.number()
+        }).optional()
+      }).optional(),
+      recurringCycleLimit: z.number().int().optional(),
+      startsAt: z.string().optional(),
+      title: z.string().optional(),
+      usageLimit: z.number().int().optional(),
+      customerGets: z.object({
+        items: z.object({
+          products: z.array(z.object({ id: z.string() })).optional(),
+          collections: z.array(z.object({ id: z.string() })).optional(),
+          variants: z.array(z.object({ id: z.string() })).optional()
+        }).optional(),
+        value: z.object({
+          percentage: z.number().optional(),
+          amount: z.object({
+            amount: z.number()
+          }).optional()
+        })
+      }).optional()
+    })
+  },
+  async (args) => {
+    const result = await discountCodeBasicUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-code-bxgy-create");
+server.tool(
+  "discount-code-bxgy-create",
+  {
+    title: z.string(),
+    code: z.string().optional(),
+    startsAt: z.string().datetime().optional(),
+    endsAt: z.string().datetime().optional(),
+    usageLimit: z.number().int().optional(),
+    appliesOncePerCustomer: z.boolean().optional(),
+    minimumRequirement: z.object({
+      quantity: z.number().int()
+    }).optional(),
+    customerBuys: z.object({
+      items: z.object({
+        products: z.object({
+          productVariants: z.array(z.string()).optional()
+        }).optional(),
+        collections: z.object({
+          collections: z.array(z.string()).optional()
+        }).optional(),
+        variants: z.object({
+          variants: z.array(z.string()).optional()
+        }).optional()
+      }),
+      quantity: z.number().int()
+    }),
+    customerGets: z.object({
+      items: z.object({
+        products: z.object({
+          productVariants: z.array(z.string()).optional()
+        }).optional(),
+        collections: z.object({
+          collections: z.array(z.string()).optional()
+        }).optional(),
+        variants: z.object({
+          variants: z.array(z.string()).optional()
+        }).optional()
+      }),
+      value: z.object({
+        discountAmount: z.object({
+          amount: z.number()
+        }).optional(),
+        discountOnQuantity: z.object({
+          quantity: z.number(),
+          effect: z.object({
+            percentage: z.number()
+          })
+        }).optional(),
+        percentage: z.number().optional()
+      })
+    }),
+    customerSelection: z.object({
+      customers: z.object({
+        customers: z.array(z.string())
+      }).optional(),
+      segments: z.object({
+        segments: z.array(z.string())
+      }).optional()
+    }).optional()
+  },
+  async (args) => {
+    const result = await discountCodeBxgyCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-code-bxgy-update");
+server.tool(
+  "discount-code-bxgy-update",
+  {
+    id: z.string().min(1, "Discount ID is required"),
+    discount: z.object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      startsAt: z.string().datetime().optional(),
+      endsAt: z.string().datetime().optional(),
+      combinesWith: z.object({
+        orderDiscounts: z.boolean().optional(),
+        productDiscounts: z.boolean().optional(),
+        shippingDiscounts: z.boolean().optional()
+      }).optional(),
+      customerBuys: z.object({
+        items: z.object({
+          products: z.object({
+            productsToAdd: z.array(z.string()).optional(),
+            productsToRemove: z.array(z.string()).optional()
+          }).optional(),
+          collections: z.object({
+            collectionsToAdd: z.array(z.string()).optional(),
+            collectionsToRemove: z.array(z.string()).optional()
+          }).optional(),
+          variants: z.object({
+            variantsToAdd: z.array(z.string()).optional(),
+            variantsToRemove: z.array(z.string()).optional()
+          }).optional()
+        }).optional(),
+        value: z.object({
+          quantity: z.number()
+        }).optional()
+      }).optional(),
+      customerGets: z.object({
+        items: z.object({
+          products: z.object({
+            productsToAdd: z.array(z.string()).optional(),
+            productsToRemove: z.array(z.string()).optional()
+          }).optional(),
+          collections: z.object({
+            collectionsToAdd: z.array(z.string()).optional(),
+            collectionsToRemove: z.array(z.string()).optional()
+          }).optional(),
+          variants: z.object({
+            variantsToAdd: z.array(z.string()).optional(),
+            variantsToRemove: z.array(z.string()).optional()
+          }).optional()
+        }).optional(),
+        value: z.object({
+          percentage: z.number()
+        }).optional()
+      }).optional(),
+      usageLimit: z.number().optional(),
+      appliesOncePerCustomer: z.boolean().optional(),
+      asyncUsageCount: z.boolean().optional()
+    })
+  },
+  async (args) => {
+    const result = await discountCodeBxgyUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-code-deactivate");
+server.tool(
+  "discount-code-deactivate",
+  {
+    id: z.string().min(1, "Discount code ID is required")
+  },
+  async (args) => {
+    const result = await discountCodeDeactivate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-code-free-shipping-create");
+server.tool(
+  "discount-code-free-shipping-create",
+  {
+    title: z.string(),
+    code: z.string(),
+    startsAt: z.string().optional(),
+    endsAt: z.string().optional(),
+    usageLimit: z.number().int().optional(),
+    appliesOncePerCustomer: z.boolean().optional(),
+    customerSelection: z.object({
+      all: z.boolean().optional(),
+      segments: z.array(z.string()).optional(),
+      customers: z.object({
+        add: z.array(z.string()).optional(),
+        remove: z.array(z.string()).optional()
+      }).optional()
+    }).optional(),
+    destinationSelection: z.object({
+      all: z.boolean().optional(),
+      countries: z.array(z.object({
+        countryCode: z.string(),
+        include: z.boolean(),
+        provinces: z.array(z.object({
+          code: z.string(),
+          include: z.boolean()
+        })).optional()
+      })).optional()
+    }).optional(),
+    minimumRequirement: z.object({
+      subtotal: z.object({
+        amount: z.number()
+      }).optional(),
+      quantity: z.object({
+        quantity: z.number()
+      }).optional()
+    }).optional(),
+    maximumShippingPrice: z.object({
+      amount: z.number()
+    }).optional()
+  },
+  async (args) => {
+    const result = await discountCodeFreeShippingCreate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-code-redeem-code-bulk-delete");
+server.tool(
+  "discount-code-redeem-code-bulk-delete",
+  {
+    discountId: z.string().min(1, "Discount ID is required"),
+    search: z.string().optional(),
+    ids: z.array(z.string()).optional()
+  },
+  async (args) => {
+    const result = await discountCodeRedeemCodeBulkDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered discount-redeem-code-bulk-add");
+server.tool(
+  "discount-redeem-code-bulk-add",
+  {
+    discountId: z.string().min(1, "Discount ID is required"),
+    codes: z.array(z.object({
+      code: z.string(),
+      recurringCycle: z.enum(['ONCE', 'MULTIPLE']).optional()
+    })).nonempty("At least one code is required")
+  },
+  async (args) => {
+    const result = await discountRedeemCodeBulkAdd.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered dispute-evidence-update");
+server.tool(
+  "dispute-evidence-update",
+  {
+    id: z.string().min(1, "Dispute ID is required"),
+    evidence: z.object({
+      accessActivityLog: z.string().optional(),
+      cancellationPolicyDisclosure: z.string().optional(),
+      cancellationPolicyFile: z.object({ id: z.string() }).optional(),
+      cancellationRebuttal: z.string().optional(),
+      customerCommunicationFile: z.object({ id: z.string() }).optional(),
+      customerEmailAddress: z.string().optional(),
+      customerFirstName: z.string().optional(),
+      customerLastName: z.string().optional(),
+      refundPolicyDisclosure: z.string().optional(),
+      refundPolicyFile: z.object({ id: z.string() }).optional(),
+      refundRefusalExplanation: z.string().optional(),
+      shippingAddress: z.object({
+        address1: z.string().optional(),
+        address2: z.string().optional(),
+        city: z.string().optional(),
+        country: z.string().optional(),
+        countryCode: z.string().optional(),
+        phone: z.string().optional(),
+        province: z.string().optional(),
+        provinceCode: z.string().optional(),
+        zip: z.string().optional()
+      }).optional(),
+      shippingCarrier: z.string().optional(),
+      shippingDate: z.string().optional(),
+      shippingDocumentationFile: z.object({ id: z.string() }).optional(),
+      shippingTrackingNumber: z.string().optional(),
+      shippingTrackingUrl: z.string().optional(),
+      uncategorizedFile: z.object({ id: z.string() }).optional(),
+      uncategorizedText: z.string().optional()
+    })
+  },
+  async (args) => {
+    const result = await disputeEvidenceUpdate.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered draft-order-create-merchant-checkout");
+server.tool(
+  "draft-order-create-merchant-checkout",
+  {
+    input: z.object({
+      allowPartialAddresses: z.boolean().optional(),
+      appliedDiscount: z.object({
+        amount: z.string().optional(),
+        description: z.string().optional(),
+        title: z.string().optional(),
+        value: z.number().optional(),
+        valueType: z.enum(['FIXED_AMOUNT', 'PERCENTAGE']).optional()
+      }).optional(),
+      billingAddress: z.object({
+        address1: z.string().optional(),
+        address2: z.string().optional(),
+        city: z.string().optional(),
+        company: z.string().optional(),
+        country: z.string().optional(),
+        countryCode: z.string().optional(),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+        phone: z.string().optional(),
+        province: z.string().optional(),
+        provinceCode: z.string().optional(),
+        zip: z.string().optional()
+      }).optional(),
+      customAttributes: z.array(z.object({
+        key: z.string(),
+        value: z.string()
+      })).optional(),
+      email: z.string().optional(),
+      lineItems: z.array(z.object({
+        appliedDiscount: z.object({
+          amount: z.string().optional(),
+          description: z.string().optional(),
+          title: z.string().optional(),
+          value: z.number().optional(),
+          valueType: z.enum(['FIXED_AMOUNT', 'PERCENTAGE']).optional()
+        }).optional(),
+        customAttributes: z.array(z.object({
+          key: z.string(),
+          value: z.string()
+        })).optional(),
+        originalUnitPrice: z.string().optional(),
+        quantity: z.number(),
+        requiresShipping: z.boolean().optional(),
+        taxable: z.boolean().optional(),
+        title: z.string().optional(),
+        variantId: z.string(),
+        weight: z.object({
+          unit: z.enum(['KILOGRAMS', 'GRAMS', 'POUNDS', 'OUNCES']),
+          value: z.number()
+        }).optional()
+      })).optional(),
+      localizationExtensions: z.array(z.object({
+        key: z.string(),
+        value: z.string()
+      })).optional(),
+      note: z.string().optional(),
+      presentmentCurrencyCode: z.string().optional(),
+      shippingAddress: z.object({
+        address1: z.string().optional(),
+        address2: z.string().optional(),
+        city: z.string().optional(),
+        company: z.string().optional(),
+        country: z.string().optional(),
+        countryCode: z.string().optional(),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+        phone: z.string().optional(),
+        province: z.string().optional(),
+        provinceCode: z.string().optional(),
+        zip: z.string().optional()
+      }).optional(),
+      shippingLine: z.object({
+        handle: z.string().optional(),
+        price: z.string().optional(),
+        title: z.string().optional()
+      }).optional(),
+      sourceName: z.string().optional(),
+      tags: z.array(z.string()).optional(),
+      taxExempt: z.boolean().optional(),
+      useCustomerDefaultAddress: z.boolean().optional()
+    })
+  },
+  async (args) => {
+    const result = await draftOrderCreateMerchantCheckout.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered draft-order-delete");
+server.tool(
+  "draft-order-delete",
+  {
+    id: z.string().min(1, "Draft order ID is required")
+  },
+  async (args) => {
+    const result = await draftOrderDelete.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered draft-order-invoice-preview");
+server.tool(
+  "draft-order-invoice-preview",
+  {
+    id: z.string().min(1, "Draft order ID is required"),
+    email: z.string().email().optional()
+  },
+  async (args) => {
+    const result = await draftOrderInvoicePreview.execute(args);
+    return { content: [{ type: "text", text: JSON.stringify(result) }] };
+  }
+);
+
+console.error("Registered file-acknowledge-update-failed");
+server.tool(
+  "file-acknowledge-update-failed",
+  {
+    fileId: z.string().min(1, "File ID is required"),
+    failureReason: z.string().min(1, "Failure reason is required")
+  },
+  async (args) => {
+    const result = await fileAcknowledgeUpdateFailed.execute(args);
     return { content: [{ type: "text", text: JSON.stringify(result) }] };
   }
 );
