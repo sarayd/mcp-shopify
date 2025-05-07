@@ -1,0 +1,22 @@
+{
+  "abandonedCheckoutRecovery": true,
+  "productCatalogManager": false,
+  "inventoryStockAdjuster": false,
+  "orderFulfillmentProcessor": false,
+  "customerSegmentationTool": false,
+  "discountCodeGenerator": false,
+  "appIntegrationDashboard": false,
+  "metafieldCustomizer": false,
+  "priceRuleAutomation": false,
+  "collectionManager": false,
+  "giftCardManager": false,
+  "draftOrderGenerator": false,
+  "shopSettingsViewer": false,
+  "subscriptionPlanManager": false,
+  "returnRequestHandler": false,
+  "locationBasedInventoryTool": false,
+  "webhookSubscriptionManager": false,
+  "eventLogger": false,
+  "fileUploader": false,
+  "salesAnalyticsDashboard": false
+}
